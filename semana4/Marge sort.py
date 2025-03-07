@@ -1,3 +1,4 @@
+import heapq
 # Lista de empleados
 empleados = [
     {"nombre": "Carlos", "edad": 29, "salario": 3000},
@@ -39,7 +40,21 @@ def merge_sort(lista, clave):
             lista[k] = derecha[j]
             j += 1
             k += 1
+            
+def quick_sort(lista, clave):
+    if len(lista) <= 1:
+        return lista[:]
+    pivote = lista[len(lista) // 2]
+    izquierda = [x for x in lista if x[clave] < pivote[clave]]
+    medio = [x for x in lista if x[clave] == pivote[clave]]
+    derecha = [x for x in lista if x[clave] > pivote[clave]]
+    return quick_sort(izquierda, clave) + medio + quick_sort(derecha, clave)
 
+#  Implementación de Heap Sort
+def heap_sort(lista, clave):
+    heap = [(empleado[clave], empleado) for empleado in lista]
+    heapq.heapify(heap)
+    return [heapq.heappop(heap)[1] for _ in range(len(heap))]
 def buscar_empleado(criterio, valor):
     resultados = [e for e in empleados if e[criterio] == valor]
     return resultados
